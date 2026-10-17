@@ -21,5 +21,6 @@
     ripgrep
     just
     git
+    tmux
   ];
 }
