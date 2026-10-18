@@ -30,4 +30,5 @@
       destination = "/etc/udev/rules.d/71-touchpad.rules";
     })
   ];
+  programs.kde-pim.enable = false;
 }
