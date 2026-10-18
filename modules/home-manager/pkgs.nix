@@ -25,5 +25,6 @@
     thunderbird
     hmcl
     # jetbrains.idea
+    wl-clipboard
   ];
 }

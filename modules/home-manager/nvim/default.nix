@@ -14,7 +14,6 @@
       ripgrep
       # lazygit
       lazygit
-      wl-clipboard # for nvim clipboard support
       fd
       gcc
     ];
