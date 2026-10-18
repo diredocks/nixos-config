@@ -1,3 +1,8 @@
+device_rules:
+  - conditions:
+      any:
+        - $name contains Logitech
+    ignore: true
 touchpad:
   speed:
     swipe_threshold: 45
