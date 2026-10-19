@@ -4,6 +4,7 @@
   lib,
   config,
   pkgs,
+  LT,
   ...
 }: {
   nix = let
@@ -15,7 +16,7 @@
       experimental-features = ["nix-command" "flakes"];
       flake-registry = "";
       auto-optimise-store = true;
-      trusted-users = ["leo"];
+      trusted-users = [LT.user];
       substituters = [
         "https://mirror.sjtu.edu.cn/nix-channels/store?priority=1"
       ];

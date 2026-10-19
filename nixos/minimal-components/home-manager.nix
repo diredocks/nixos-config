@@ -15,11 +15,11 @@ in {
     useUserPackages = true;
     extraSpecialArgs = {inherit inputs LT;};
 
-    users.leo = {
+    users.${LT.user} = {
       imports = [entrypoint];
       home = {
-        username = "leo";
-        homeDirectory = "/home/leo";
+        username = LT.user;
+        homeDirectory = LT.userHome;
         stateVersion = host.homeStateVersion;
       };
       programs.home-manager.enable = true;

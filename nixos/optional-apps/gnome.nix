@@ -4,6 +4,7 @@
   lib,
   config,
   pkgs,
+  LT,
   ...
 }: {
   services = {
@@ -12,7 +13,7 @@
   };
   services.displayManager = {
     autoLogin.enable = true;
-    autoLogin.user = "leo";
+    autoLogin.user = LT.user;
   };
   services.gnome.games.enable = false;
   services.gnome.gnome-keyring.enable = true;

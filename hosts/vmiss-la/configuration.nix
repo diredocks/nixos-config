@@ -4,6 +4,7 @@
   lib,
   config,
   pkgs,
+  LT,
   ...
 }: let
   sshKeys = import ../../secrets/ssh-keys-pub.nix;
@@ -41,16 +42,9 @@ in {
     };
   };
 
-  users.users = {
-    leo = {
-      initialPassword = "1";
-      isNormalUser = true;
-      extraGroups = ["wheel"];
-      openssh.authorizedKeys.keys = [
-        sshKeys.users.leo_probook-nix
-      ];
-    };
-  };
+  users.users.${LT.user}.openssh.authorizedKeys.keys = [
+    sshKeys.users.leo_probook-nix
+  ];
 
   services.tailscale.enable = true;
   environment.systemPackages = with pkgs; [

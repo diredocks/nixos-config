@@ -3,6 +3,7 @@
   lib,
   config,
   pkgs,
+  LT,
   ...
 }: {
   virtualisation.libvirtd.enable = true;
@@ -10,5 +11,5 @@
   networking.nftables.enable = true;
   networking.firewall.trustedInterfaces = ["incusbr0" "virbr0"];
   programs.virt-manager.enable = true;
-  users.users.leo.extraGroups = ["libvirtd" "incus-admin"];
+  users.users.${LT.user}.extraGroups = ["libvirtd" "incus-admin"];
 }

@@ -3,6 +3,7 @@
   lib,
   config,
   pkgs,
+  LT,
   ...
 }: {
   programs.labwc = {
@@ -23,7 +24,7 @@
     settings = rec {
       initial_session = {
         command = "${pkgs.labwc}/bin/labwc";
-        user = "leo";
+        user = LT.user;
       };
       default_session = initial_session;
     };

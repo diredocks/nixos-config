@@ -21,14 +21,6 @@ in {
   time.timeZone = "Asia/Shanghai";
   i18n.defaultLocale = "en_US.UTF-8";
 
-  users.users = {
-    leo = {
-      initialPassword = "1";
-      isNormalUser = true;
-      extraGroups = ["wheel"];
-    };
-  };
-
   services.openssh.settings.PermitRootLogin = "yes";
 
   services.tailscale.enable = true;

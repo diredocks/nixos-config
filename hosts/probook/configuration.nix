@@ -6,6 +6,7 @@
   lib,
   config,
   pkgs,
+  LT,
   ...
 }: {
   imports = [
@@ -22,13 +23,7 @@
   time.timeZone = "Asia/Shanghai";
   i18n.defaultLocale = "en_US.UTF-8";
 
-  users.users = {
-    leo = {
-      initialPassword = "1";
-      isNormalUser = true;
-      extraGroups = ["wheel" "dialout"];
-    };
-  };
+  users.users.${LT.user}.extraGroups = ["dialout"];
 
   services.keyd = {
     enable = true;

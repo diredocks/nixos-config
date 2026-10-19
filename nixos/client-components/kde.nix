@@ -4,6 +4,7 @@
   lib,
   config,
   pkgs,
+  LT,
   ...
 }: {
   services.xserver.enable = true;
@@ -11,7 +12,7 @@
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager = {
     autoLogin.enable = true;
-    autoLogin.user = "leo";
+    autoLogin.user = LT.user;
   };
   services.desktopManager.plasma6.enable = true;
   programs.kdeconnect.enable = true;
@@ -20,7 +21,7 @@
     inputs.inputactions.packages.${pkgs.stdenv.hostPlatform.system}.inputactions-kwin
     kdePackages.oxygen
   ];
-  security.pam.services.leo.kwallet.enable = true;
+  security.pam.services.${LT.user}.kwallet.enable = true;
   services.udev.packages = [
     (pkgs.writeTextFile {
       name = "inputactions-udev-rules";

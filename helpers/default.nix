@@ -20,7 +20,7 @@
       ;
 
     constants = call ./constants.nix;
-    inherit (constants) tags;
+    inherit (constants) tags user userHome;
 
     ls = call ./fn/ls.nix;
 
