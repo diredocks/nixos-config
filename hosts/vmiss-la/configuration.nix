@@ -41,7 +41,7 @@ in {
 
   nix = {
     settings.substituters = lib.mkForce [
-      "https://cache.nixos.org"
+      "https://cache.nixos.org?priority=1"
     ];
     gc = {
       automatic = true;
