@@ -9,19 +9,11 @@
   sshKeys = import ../../secrets/ssh-keys-pub.nix;
 in {
   imports = [
-    "${inputs.nixpkgs}/nixos/modules/profiles/headless.nix"
-    "${inputs.nixpkgs}/nixos/modules/profiles/minimal.nix"
     ./hardware/boot.nix
     ./hardware/disko.nix
     ./hardware/hardware-configuration.nix
-    ../../modules/nixos/pkgs.nix
-    ../../modules/nixos/services/nix.nix
-    ../../modules/nixos/services/sshd.nix
-    ../../modules/nixos/services/shell.nix
-    ../../modules/nixos/services/sing-box.nix
   ];
 
-  networking.hostName = "vmiss-la";
   networking.firewall.enable = false;
   networking.useDHCP = false;
   networking.nameservers = [
@@ -74,6 +66,4 @@ in {
   age.secrets.vmiss-la-sb-conf.file = ../../secrets/vmiss-la-sb-config.json;
 
   services.openssh.ports = [41867];
-
-  system.stateVersion = "25.05";
 }

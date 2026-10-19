@@ -3,6 +3,10 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -33,132 +37,22 @@
     };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    agenix,
-    deploy-rs,
-    ...
-  } @ inputs: let
-    inherit (self) outputs;
-    systems = [
-      "x86_64-linux"
-      "aarch64-linux"
-    ];
-    forAllSystems = nixpkgs.lib.genAttrs systems;
+  outputs = inputs @ {flake-parts, ...}:
+    flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = ["x86_64-linux" "aarch64-linux"];
 
-    deployPkgs = forAllSystems (system:
-      import nixpkgs {
-        inherit system;
-        overlays = [
-          (self: super: {
-            deploy-rs = {
-              inherit ((inputs.deploy-rs.overlays.default self super).deploy-rs) lib;
-              inherit (super) deploy-rs;
-            };
-          })
-        ];
-      });
-  in {
-    packages =
-      forAllSystems (
-        system:
-          import ./pkgs nixpkgs.legacyPackages.${system}
-      )
-      // {
-        # NOTE: build these images with `nix build .\#packages.xxx`
-        tpm312-image = self.nixosConfigurations.tpm312.config.system.build.sdImage;
-        vmiss-la-image = self.nixosConfigurations.vmiss-la.config.system.build.diskoImages;
-        racknerd-image = self.nixosConfigurations.racknerd.config.system.build.diskoImages;
-        aliyun-image = self.nixosConfigurations.aliyun.config.system.build.diskoImages;
-      };
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+      imports = [
+        ./flake-modules/deploy.nix
+        ./flake-modules/nixos-configurations.nix
+        ./flake-modules/packages.nix
+      ];
 
-    overlays = import ./overlays {inherit inputs;};
-    nixosModules = import ./modules/nixos;
-    homeManagerModules = import ./modules/home-manager;
+      flake = {
+        overlays = import ./overlays {inherit inputs;};
+      };
 
-    nixosConfigurations = let
-      mkModules = enabled: mods:
-        if enabled
-        then mods
-        else [];
-      makeConfig = {
-        host,
-        system ? "x86_64-linux",
-        withDisko ? false,
-        withHomeManager ? true,
-        withAge ? true,
-      }:
-        nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = {inherit inputs outputs;};
-          modules =
-            [
-              ./hosts/${host}/configuration.nix
-            ]
-            ++ mkModules withDisko [inputs.disko.nixosModules.disko]
-            ++ mkModules withHomeManager [
-              inputs.home-manager.nixosModules.home-manager
-              {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.extraSpecialArgs = {inherit inputs;};
-                home-manager.users.leo = import ./hosts/${host}/home.nix;
-              }
-            ]
-            ++ mkModules withAge [
-              inputs.agenix.nixosModules.default
-              ({pkgs, ...}: {
-                environment.systemPackages = [inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default];
-              })
-            ];
-        };
-    in {
-      probook = makeConfig {
-        host = "probook";
-      };
-      vmiss-la = makeConfig {
-        host = "vmiss-la";
-        withDisko = true;
-      };
-      racknerd = makeConfig {
-        host = "racknerd";
-        withDisko = true;
-      };
-      aliyun = makeConfig {
-        host = "aliyun";
-        withDisko = true;
-      };
-      tpm312 = makeConfig {
-        host = "tpm312";
-        system = "aarch64-linux";
+      perSystem = {pkgs, ...}: {
+        formatter = pkgs.alejandra;
       };
     };
-
-    deploy = {
-      sshUser = "leo";
-      user = "root";
-      interactiveSudo = true;
-      autoRollback = false;
-      magicRollback = false;
-      remoteBuild = true;
-
-      nodes = {
-        vmiss-la = {
-          hostname = "vmlatl";
-          profiles.system.path = deployPkgs.x86_64-linux.deploy-rs.lib.activate.nixos self.nixosConfigurations.vmiss-la;
-        };
-        racknerd = {
-          hostname = "rntl";
-          profiles.system.path = deployPkgs.x86_64-linux.deploy-rs.lib.activate.nixos self.nixosConfigurations.racknerd;
-        };
-        aliyun = {
-          hostname = "alitl";
-          profiles.system.path = deployPkgs.x86_64-linux.deploy-rs.lib.activate.nixos self.nixosConfigurations.aliyun;
-        };
-      };
-    };
-  };
 }

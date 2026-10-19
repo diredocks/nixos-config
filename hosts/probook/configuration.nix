@@ -11,14 +11,8 @@
   imports = [
     ./hardware/hardware-configuration.nix
     ./hardware/boot.nix
-    ../../modules/nixos/devices.nix
-    ../../modules/nixos/pkgs.nix
-    ../../modules/nixos/services
-    ../../modules/nixos/services/virt.nix
-    ../../modules/nixos/desktop
   ];
 
-  networking.hostName = "probook";
   networking.networkmanager.enable = true;
   systemd.services.NetworkManager-wait-online.enable = false;
 
@@ -47,6 +41,4 @@
       };
     };
   };
-
-  system.stateVersion = "23.05";
 }

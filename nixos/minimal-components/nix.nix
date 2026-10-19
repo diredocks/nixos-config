@@ -7,7 +7,9 @@
   ...
 }: {
   nix = let
-    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
+    # flake-parts is build infrastructure, not a user-facing input; keep it out
+    # of the system flake registry/nix-path so the system closure stays unchanged.
+    flakeInputs = lib.filterAttrs (n: v: n != "flake-parts" && lib.isType "flake" v) inputs;
   in {
     settings = {
       experimental-features = ["nix-command" "flakes"];

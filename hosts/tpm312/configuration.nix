@@ -8,19 +8,12 @@
 }: let
 in {
   imports = [
-    "${inputs.nixpkgs}/nixos/modules/profiles/headless.nix"
-    "${inputs.nixpkgs}/nixos/modules/profiles/minimal.nix"
     #./hardware/boot.nix
     #./hardware/disko.nix
     ./hardware/hardware-configuration.nix
     ./hardware/sd-image.nix
-    ../../modules/nixos/pkgs.nix
-    ../../modules/nixos/services/nix.nix
-    ../../modules/nixos/services/sshd.nix
-    ../../modules/nixos/services/shell.nix
   ];
 
-  networking.hostName = "tpm312";
   networking.networkmanager.enable = true;
   networking.firewall.enable = false;
   systemd.services.NetworkManager-wait-online.enable = false;
@@ -42,6 +35,4 @@ in {
   environment.systemPackages = with pkgs; [
     tailscale
   ];
-
-  system.stateVersion = "25.05";
 }

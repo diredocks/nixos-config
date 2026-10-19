@@ -9,19 +9,11 @@
   sshKeys = import ../../secrets/ssh-keys-pub.nix;
 in {
   imports = [
-    "${inputs.nixpkgs}/nixos/modules/profiles/headless.nix"
-    "${inputs.nixpkgs}/nixos/modules/profiles/minimal.nix"
     ./hardware/boot.nix
     ./hardware/disko.nix
     ./hardware/hardware-configuration.nix
-    ../../modules/nixos/pkgs.nix
-    ../../modules/nixos/services/nix.nix
-    ../../modules/nixos/services/sshd.nix
-    ../../modules/nixos/services/shell.nix
-    ../../modules/nixos/services/sing-box.nix
   ];
 
-  networking.hostName = "racknerd";
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [80 443 8010];
@@ -77,6 +69,4 @@ in {
   age.secrets.racknerd-sb-conf.file = ../../secrets/racknerd-sb-config.json;
 
   services.openssh.ports = [24228];
-
-  system.stateVersion = "25.05";
 }

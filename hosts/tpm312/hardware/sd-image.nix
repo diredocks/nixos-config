@@ -7,7 +7,7 @@
 }: {
   imports = [
     (modulesPath + "/profiles/base.nix")
-    ../../../modules/sd-image.nix
+    ../../../nixos/hardware/sd-image.nix
   ];
 
   # TODO: Uboot from https://github.com/ophub/u-boot/tree/main/u-boot/rockchip/tpm312
