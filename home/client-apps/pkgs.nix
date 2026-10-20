@@ -26,5 +26,6 @@
     hmcl
     # jetbrains.idea
     wl-clipboard
+    html-to-markdown
   ];
 }
