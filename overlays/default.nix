@@ -1,7 +1,12 @@
 # This file defines overlays
 {inputs, ...}: {
-  # This one brings our custom packages from the 'pkgs' directory
-  additions = final: _prev: import ../pkgs final.pkgs;
+  # Custom packages from the 'pkgs' directory. `prev.lib` avoids forcing
+  # `final` while building the attrset, which would recurse.
+  additions = final: prev:
+    import ../pkgs {
+      pkgs = final;
+      inherit (prev) lib;
+    };
 
   # This one contains whatever you want to overlay
   modifications = final: prev: {

@@ -65,7 +65,7 @@ Opt-in modules (`nixos/optional-apps`, `home/optional-apps`) are **not** auto-im
 
 **Secrets.** Add the file under `secrets/`, declare its recipients in `secrets/secrets.nix` (public keys come from `secrets/ssh-keys-pub.nix`), then reference it with `age.secrets.<name>.file`. Never commit plaintext secrets.
 
-**Custom package.** Add `pkgs/<name>.nix` and wire it in `pkgs/default.nix`; the overlay exposes it to all hosts.
+**Custom package.** Drop `pkgs/<name>.nix` — it is auto-imported as `pkgs.<name>` and exposed to all hosts by the overlay.
 
 ## Commands
 

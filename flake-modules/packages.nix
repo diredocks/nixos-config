@@ -6,10 +6,11 @@
   perSystem = {
     system,
     pkgs,
+    lib,
     ...
   }: {
     packages =
-      (import ../pkgs pkgs)
+      (import ../pkgs {inherit pkgs lib;})
       // lib.optionalAttrs (system == "x86_64-linux") {
         # nix build .#packages.x86_64-linux.<name>
         vmiss-la-image = self.nixosConfigurations.vmiss-la.config.system.build.diskoImages;
