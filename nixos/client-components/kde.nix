@@ -32,4 +32,8 @@
     })
   ];
   programs.kde-pim.enable = false;
+  security.polkit = {
+    enable = true;
+    enablePkexecWrapper = true;
+  };
 }
