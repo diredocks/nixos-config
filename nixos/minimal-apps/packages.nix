@@ -22,5 +22,6 @@
     just
     git
     tmux
+    jq
   ];
 }
