@@ -7,12 +7,15 @@
 }: {
   imports = [
     (modulesPath + "/profiles/base.nix")
-    ../../../nixos/hardware/sd-image.nix
+    (modulesPath + "/installer/sd-card/sd-image.nix")
   ];
 
-  # TODO: Uboot from https://github.com/ophub/u-boot/tree/main/u-boot/rockchip/tpm312
+  # Boot blobs live in the 32 MiB gap (SD and eMMC share the image); root grows on first boot.
+  image.baseName = "nixos-sd-image-tpm312";
+
+  # Kernel/initrd/dtb on rootfs, loaded via extlinux.conf distro boot.
   sdImage = {
-    imageBaseName = "nixos-sd-image-tpm312";
+    # Leave 32 MiB in front of the first partition for the Rockchip boot chain.
     firmwarePartitionOffset = 32;
     populateFirmwareCommands = "";
     populateRootCommands = ''
@@ -20,10 +23,11 @@
       ${config.boot.loader.generic-extlinux-compatible.populateCmd} -c ${config.system.build.toplevel} -d ./files/boot
     '';
     postBuildCommands = ''
-      # puts the Rockchip header and SPL image first at block 64 (0x40)
-      #dd if=/idbloader.img of=$img seek=64 conv=notrunc
-      # places the U-Boot image at block 16384 (0x4000)
-      #dd if=/u-boot.itb of=$img seek=16384 conv=notrunc
+      # Same layout as ophub's Armbian images for this board (512-byte sectors):
+      # idbloader at 0x40, U-Boot at 0x4000 and ATF BL31 at 0x6000.
+      dd if=${pkgs.uboot-tpm312}/idbloader.bin of=$img conv=fsync,notrunc bs=512 seek=64
+      dd if=${pkgs.uboot-tpm312}/uboot.img of=$img conv=fsync,notrunc bs=512 seek=16384
+      dd if=${pkgs.uboot-tpm312}/trust.bin of=$img conv=fsync,notrunc bs=512 seek=24576
     '';
   };
 }
