@@ -8,7 +8,6 @@
 }: {
   environment.systemPackages = with pkgs; [
     zip
-    rar
     wget
     curl
     vim

@@ -20,6 +20,12 @@
       // lib.optionalAttrs (system == "aarch64-linux") {
         # nix build .#packages.aarch64-linux.tpm312-image
         tpm312-image = self.nixosConfigurations.tpm312.config.system.build.sdImage;
+      }
+      // lib.optionalAttrs (system == "armv7l-linux") {
+        # nix build .#packages.armv7l-linux.onecloud-image
+        onecloud-image = self.nixosConfigurations.onecloud.config.system.build.sdImage;
+        # nix build .#packages.armv7l-linux.onecloud-burn-image
+        onecloud-burn-image = self.nixosConfigurations.onecloud.config.system.build.burnImage;
       };
   };
 }
