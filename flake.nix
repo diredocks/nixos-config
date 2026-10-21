@@ -11,8 +11,16 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    inputactions = {
-      url = "git+https://github.com/taj-ny/InputActions?submodules=1";
+    inputactions-ctl = {
+      url = "git+https://github.com/InputActions/ctl?submodules=1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    inputactions-kwin = {
+      url = "git+https://github.com/InputActions/kwin?submodules=1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    inputactions-overlay = {
+      url = "git+https://github.com/InputActions/overlay?submodules=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     agenix = {

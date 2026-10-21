@@ -17,8 +17,9 @@
   services.desktopManager.plasma6.enable = true;
   programs.kdeconnect.enable = true;
   environment.systemPackages = with pkgs; [
-    inputs.inputactions.packages.${pkgs.stdenv.hostPlatform.system}.inputactions-ctl
-    inputs.inputactions.packages.${pkgs.stdenv.hostPlatform.system}.inputactions-kwin
+    inputs.inputactions-ctl.packages.${pkgs.system}.default
+    inputs.inputactions-kwin.packages.${pkgs.system}.default
+    inputs.inputactions-overlay.packages.${pkgs.system}.default
     kdePackages.oxygen
   ];
   security.pam.services.${LT.user}.kwallet.enable = true;

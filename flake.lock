@@ -191,26 +191,70 @@
         "type": "github"
       }
     },
-    "inputactions": {
+    "inputactions-ctl": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1788881519,
-        "narHash": "sha256-o23k4M6ehc9Uj4aLdLyMwOMyXuOFvsliUQMlvc3aJAk=",
+        "lastModified": 1790265237,
+        "narHash": "sha256-d7YovS2tbB9Ms5KN2BEI3PxyBLijOv1bwdSM2nKoTQQ=",
         "ref": "refs/heads/main",
-        "rev": "e3dfb18ecf2b86437a616ed53a4f7223846c8a5b",
-        "revCount": 776,
+        "rev": "cad24c6700e72794e4b9589d1eac2a81e0481b44",
+        "revCount": 11,
         "submodules": true,
         "type": "git",
-        "url": "https://github.com/taj-ny/InputActions"
+        "url": "https://github.com/InputActions/ctl"
       },
       "original": {
         "submodules": true,
         "type": "git",
-        "url": "https://github.com/taj-ny/InputActions"
+        "url": "https://github.com/InputActions/ctl"
+      }
+    },
+    "inputactions-kwin": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792308134,
+        "narHash": "sha256-4WgbVFF9O08Ny79y1pInApQ2HaA/W8hNOY7KZfEr+R0=",
+        "ref": "refs/heads/main",
+        "rev": "701cb288a9875076c1aed9abf8fd0b2ca088be3f",
+        "revCount": 69,
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/InputActions/kwin"
+      },
+      "original": {
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/InputActions/kwin"
+      }
+    },
+    "inputactions-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792248839,
+        "narHash": "sha256-iJ7FHyPp51b+gG6m5quaL7jlorygIkfp8tfF/8dIIHM=",
+        "ref": "refs/heads/main",
+        "rev": "7e5e1a971f5edc1619e2df9cbf311b9762f16a03",
+        "revCount": 13,
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/InputActions/overlay"
+      },
+      "original": {
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/InputActions/overlay"
       }
     },
     "lazyvim": {
@@ -281,7 +325,9 @@
         "disko": "disko",
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
-        "inputactions": "inputactions",
+        "inputactions-ctl": "inputactions-ctl",
+        "inputactions-kwin": "inputactions-kwin",
+        "inputactions-overlay": "inputactions-overlay",
         "lazyvim": "lazyvim",
         "llm-agents": "llm-agents",
         "nixpkgs": "nixpkgs"
