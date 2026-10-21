@@ -1,9 +1,9 @@
 # https://github.com/jpetrucciani/nix/blob/main/pkgs/cli/html-to-markdown.nix
-{ lib
-, buildGoModule
-, fetchFromGitHub
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
 }:
-
 buildGoModule rec {
   pname = "html-to-markdown";
   version = "2.5.2";
@@ -17,13 +17,13 @@ buildGoModule rec {
 
   vendorHash = "sha256-/7Rm01pzjIZ31wxH5mjqGpojFX5GZknjRnFKPrr4JF4=";
 
-  ldflags = [ "-s" "-w" ];
+  ldflags = ["-s" "-w"];
 
   meta = {
     description = "Convert HTML to Markdown. Even works with entire websites and can be extended through rules";
     homepage = "https://github.com/JohannesKaufmann/html-to-markdown";
     license = lib.licenses.mit;
-    maintainers = with lib.maintainers; [ jpetrucciani ];
+    maintainers = with lib.maintainers; [jpetrucciani];
     mainProgram = "html-to-markdown";
   };
 }
