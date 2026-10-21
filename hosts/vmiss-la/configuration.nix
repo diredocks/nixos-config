@@ -15,7 +15,11 @@ in {
     ./hardware/hardware-configuration.nix
   ];
 
-  networking.firewall.enable = false;
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [80 443];
+    allowedUDPPorts = [80 443 3478 41641];
+  };
   networking.useDHCP = false;
   networking.nameservers = [
     "1.1.1.1"

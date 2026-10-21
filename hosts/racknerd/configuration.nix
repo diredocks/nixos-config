@@ -17,8 +17,8 @@ in {
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [80 443 8010];
-    allowedUDPPorts = [80 443 3478];
+    allowedTCPPorts = [80 443];
+    allowedUDPPorts = [80 443 3478 41641];
   };
   services.resolved.enable = false;
   networking.useDHCP = false;
