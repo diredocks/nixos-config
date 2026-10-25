@@ -1,13 +1,17 @@
 {
   lib,
   config,
+  hostsBase,
+  name,
   ...
-} @ args: {
+}: let
+  diskoFile = hostsBase + "/${name}/hardware/disko.nix";
+in {
   options = {
     name = lib.mkOption {
       type = lib.types.str;
       readOnly = true;
-      default = args.name;
+      default = name;
     };
     system = lib.mkOption {
       type = lib.types.str;
@@ -29,7 +33,7 @@
     };
     withDisko = lib.mkOption {
       type = lib.types.bool;
-      default = false;
+      default = builtins.pathExists diskoFile;
     };
   };
 }

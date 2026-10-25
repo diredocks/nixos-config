@@ -17,7 +17,7 @@ helpers/               # LT: shared library injected into every module
   fn/ls.nix            # LT.ls <dir>: list .nix files in a dir
   default.nix          # assembles the above into LT
 hosts/<name>/          # one dir per machine
-  host.nix             # metadata: system, tags, stateVersion, withDisko
+  host.nix             # metadata: system, tags, stateVersion
   configuration.nix    # host-specific settings + hardware imports
   hardware/            # boot.nix / disko.nix / hardware-configuration.nix
 nixos/                 # system-level modules
@@ -44,11 +44,10 @@ justfile               # rebuild/deploy/update/format commands
   tags = ["server"];              # "client" | "server" | none -> minimal
   stateVersion = "25.05";
   homeStateVersion = "25.05";
-  withDisko = true;               # optional, enables disko
 }
 ```
 
-The role module is auto-selected from tags (`flake-modules/nixos-configurations.nix`), so don't import `nixos/{client,server,minimal}.nix` yourself. `configuration.nix` should hold only host-specific settings plus `./hardware/...` imports. `hosts/<name>` is picked up automatically by `readDir`.
+The role module is auto-selected from tags (`flake-modules/nixos-configurations.nix`), so don't import `nixos/{client,server,minimal}.nix` yourself. `configuration.nix` should hold only host-specific settings plus `./hardware/...` imports; hosts with a `hardware/disko.nix` get `disko` enabled automatically. `hosts/<name>` is picked up automatically by `readDir`.
 
 **Add an app/component.** Drop a `.nix` file into the right directory — it is imported automatically by `LT.ls`:
 - Always on every host: `nixos/minimal-apps`, `nixos/minimal-components`
