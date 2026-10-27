@@ -62,7 +62,7 @@ Opt-in modules (`nixos/optional-apps`, `home/optional-apps`) are **not** auto-im
 - `LT.hosts.<name>` / `LT.this` / `LT.otherHosts` — host metadata
 - `LT.hostsWithTag <tag>` / `LT.hostsWithoutTag <tag>`
 
-**Secrets.** Add the file under `secrets/`, declare its recipients in `secrets/secrets.nix` (public keys come from `secrets/ssh-keys-pub.nix`), then reference it with `age.secrets.<name>.file`. Never commit plaintext secrets.
+**Secrets.** Add the file under `secrets/`, declare its recipients in `secrets/agenix-rules.nix` (public keys come from `secrets/ssh-keys-pub.nix`), then reference it with `age.secrets.<name>.file`. Never commit plaintext secrets. Run `agenix` from inside `secrets/` (or set `AGENIX_RULES`) so the rules file is found.
 
 **Custom package.** Drop `pkgs/<name>.nix` — it is auto-imported as `pkgs.<name>` and exposed to all hosts by the overlay.
 
