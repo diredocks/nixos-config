@@ -4,10 +4,6 @@
   lib,
   ...
 }: let
-  LT = import ../helpers {
-    inherit inputs self lib;
-  };
-
   # All deploy targets are x86_64-linux, so only build that package set.
   deployPkgs = import inputs.nixpkgs {
     system = "x86_64-linux";
@@ -22,11 +18,11 @@
   };
 in {
   flake.deploy = {
-    sshUser = LT.user;
+    sshUser = "root";
     user = "root";
-    interactiveSudo = true;
-    autoRollback = false;
-    magicRollback = false;
+    interactiveSudo = false;
+    autoRollback = true;
+    magicRollback = true;
     remoteBuild = true;
 
     nodes =
