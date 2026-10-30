@@ -20,7 +20,7 @@
     then ../nixos/server.nix
     else ../nixos/minimal.nix;
 
-  makeConfig = name: let
+  mkHost = name: let
     LT = mkLT name;
     host = LT.hosts."${name}";
   in
@@ -52,5 +52,5 @@
     };
 in {
   flake.nixosConfigurations =
-    lib.mapAttrs (n: _: makeConfig n) (builtins.readDir ../hosts);
+    lib.mapAttrs (n: _: mkHost n) (builtins.readDir ../hosts);
 }
