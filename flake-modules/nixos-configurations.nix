@@ -3,14 +3,17 @@
   inputs,
   ...
 }: let
-  LT = import ../helpers {
-    inherit inputs self;
-    inherit (inputs.nixpkgs) lib;
-  };
+  inherit (inputs.nixpkgs) lib;
+
+  mkLT = name:
+    import ../helpers {
+      inherit inputs self lib;
+      inherit (self.nixosConfigurations."${name}") config pkgs;
+    };
 
   # Role is derived from the host's tags so configuration.nix only holds
   # host-specific settings and hardware imports.
-  roleModule = host:
+  roleModule = LT: host:
     if host.hasTag LT.tags.client
     then ../nixos/client.nix
     else if host.hasTag LT.tags.server
@@ -18,9 +21,10 @@
     else ../nixos/minimal.nix;
 
   makeConfig = name: let
+    LT = mkLT name;
     host = LT.hosts."${name}";
   in
-    inputs.nixpkgs.lib.nixosSystem {
+    lib.nixosSystem {
       system = host.system;
       specialArgs = {
         inherit inputs self LT;
@@ -28,14 +32,14 @@
       };
       modules =
         [
-          (roleModule host)
+          (roleModule LT host)
           (../hosts + "/${name}/configuration.nix")
           {
-            networking.hostName = inputs.nixpkgs.lib.mkForce name;
+            networking.hostName = lib.mkForce name;
             system.stateVersion = host.stateVersion;
           }
         ]
-        ++ inputs.nixpkgs.lib.optional host.withDisko inputs.disko.nixosModules.disko
+        ++ lib.optional host.withDisko inputs.disko.nixosModules.disko
         ++ [
           inputs.home-manager.nixosModules.home-manager
           inputs.agenix.nixosModules.default
@@ -48,5 +52,5 @@
     };
 in {
   flake.nixosConfigurations =
-    inputs.nixpkgs.lib.mapAttrs (n: _: makeConfig n) (builtins.readDir ../hosts);
+    lib.mapAttrs (n: _: makeConfig n) (builtins.readDir ../hosts);
 }

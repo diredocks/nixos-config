@@ -1,12 +1,10 @@
 {
   LT,
-  config,
   inputs,
   ...
 }: let
-  host = LT.hosts."${config.networking.hostName}";
   entrypoint =
-    if host.hasTag LT.tags.client
+    if LT.this.hasTag LT.tags.client
     then ../../home/client.nix
     else ../../home/none.nix;
 in {
@@ -20,7 +18,7 @@ in {
       home = {
         username = LT.user;
         homeDirectory = LT.userHome;
-        stateVersion = host.homeStateVersion;
+        stateVersion = LT.this.homeStateVersion;
       };
       programs.home-manager.enable = true;
     };

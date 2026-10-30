@@ -7,7 +7,12 @@
   hostsBase ? ../hosts,
   ...
 }: let
-  call = path: lib.callPackageWith (pkgs // helpers) path {};
+  call = path: let
+    result = lib.callPackageWith helpers path {};
+  in
+    if builtins.isAttrs result
+    then removeAttrs result ["override" "overrideDerivation"]
+    else result;
 
   helpers = rec {
     inherit
