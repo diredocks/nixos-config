@@ -10,5 +10,6 @@
     ]
     ++ LT.ls ./minimal-apps
     ++ LT.ls ./minimal-components
+    ++ LT.ls ./server-components
     ++ LT.ls ./server-apps;
 }
