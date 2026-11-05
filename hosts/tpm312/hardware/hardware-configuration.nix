@@ -33,8 +33,17 @@
     options = ["subvol=data" "compress=zstd" "noatime" "nofail"];
   };
 
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 100;
+    priority = 100;
+  };
+
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = 1;
     "net.ipv6.conf.all.forwarding" = 1;
+    "vm.swappiness" = 180;
+    "vm.page-cluster" = 0;
   };
 }
