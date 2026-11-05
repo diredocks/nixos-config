@@ -1,15 +1,15 @@
-# Prebuilt ophub/kernel (rk35xx/rockchip64 6.12.y), repackaged in the layout
-# NixOS expects from a kernel derivation:
-#   $out/Image  $out/config  $out/System.map  $out/dtbs/rockchip/*.dtb
-#   $out/lib/modules/<modDirVersion>/
+# Prebuilt ophub/kernel (rk35xx/rockchip64 6.12.y), repackaged into the layout
+# NixOS expects: Image / config / System.map / dtbs / lib/modules. No `dev`
+# output, so out-of-tree modules cannot be built against it.
 #
-# Bump: change `version` and `hash` (nix-prefetch-url --type sha256 <url>, then
-# nix hash convert --hash-algo sha256 --to sri <hash>). ophub only keeps the last
-# few patch releases per series, so old URLs 404 -- keep the tarball in your own
-# cache (cachix / `nix copy`) if you want old pins to stay buildable.
-#
-# No `dev` output: out-of-tree modules (ZFS, nvidia, ...) cannot be built
-# against this kernel.
+# Bump: update `version` and `hash` (`nix-prefetch-url --type sha256 <url>`, then
+# `nix hash convert --hash-algo sha256 --to sri <hash>`), then refresh
+# pkgs/linux-ophub/config from the same tarball -- installPhase cmp's it, so a
+# stale copy fails the build:
+#   tar -xzf <tarball> && tar -xzOf <version>/boot-<modDirVersion>.tar.gz \
+#     config-<modDirVersion> > pkgs/linux-ophub/config
+# ophub keeps only the last few patch releases per series, so old URLs 404 --
+# keep the tarball in your own cache (cachix / `nix copy`) to keep pins working.
 {
   lib,
   stdenvNoCC,
@@ -20,8 +20,7 @@
   version = "6.12.115";
   modDirVersion = "${version}-ophub";
 
-  # The release asset is a tarball of tarballs:
-  #   boot-*.tar.gz modules-*.tar.gz dtb-<soc>-*.tar.gz header-*.tar.gz sha256sums
+  # tarball of tarballs: boot-*, modules-*, dtb-rockchip-*, header-*
   src = fetchurl {
     url = "https://github.com/ophub/kernel/releases/download/kernel_stable/${version}.tar.gz";
     hash = "sha256-NTZ71fH8xL0V+FY32gBg3VgnWIvI+NYHDSHc6jFDwZA=";
@@ -49,8 +48,7 @@ in
 
       mkdir -p $out/dtbs/rockchip $out/lib/modules boot
 
-      # vmlinuz-* is already an uncompressed arm64 Image (EFI stub), which is
-      # what U-Boot's booti wants and what NixOS calls `Image` on aarch64.
+      # vmlinuz-* is already the uncompressed arm64 Image that booti wants.
       tar -xf boot-${modDirVersion}.tar.gz -C boot
       install -Dm644 boot/vmlinuz-${modDirVersion}    $out/Image
       install -Dm644 boot/config-${modDirVersion}     $out/config
@@ -67,6 +65,7 @@ in
       # fail at build time, not at boot
       test -f $out/dtbs/rockchip/rk3399-tpm312.dtb
       test -f $out/lib/modules/${modDirVersion}/modules.dep
+      cmp $out/config ${./linux-ophub/config}
 
       runHook postInstall
     '';
@@ -81,10 +80,23 @@ in
       # NixOS skips its `requiredKernelConfig` assertions for kernels that have
       # `features` (it assumes nixpkgs kernels).
       features = {};
-      # Same interface as nixpkgs' kernel.config (isYes/isSet/...), backed by a
-      # static copy of ophub's .config so no import-from-derivation is needed.
+      # nixpkgs' kernel.config interface, parsed from the vendored .config.
+      # Reading it off the built derivation would be import-from-derivation,
+      # which needs an aarch64 builder just to evaluate tpm312.
       config = let
-        opts = import ./linux-ophub-config.nix;
+        parseLine = line: let
+          set = lib.match "CONFIG_([^=]+)=(.*)" line;
+        in
+          if set == null
+          then null
+          else {
+            name = lib.elemAt set 0;
+            # CONFIG_X="str" -> str
+            value = lib.removeSuffix "\"" (lib.removePrefix "\"" (lib.elemAt set 1));
+          };
+        opts = lib.listToAttrs (
+          lib.filter (o: o != null) (map parseLine (lib.splitString "\n" (builtins.readFile ./linux-ophub/config)))
+        );
         get = o: opts.${lib.removePrefix "CONFIG_" o} or null;
       in {
         getValue = get;
