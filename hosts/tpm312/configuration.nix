@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   imports = [
     ./hardware/hardware-configuration.nix
     ./hardware/sd-image.nix
@@ -16,5 +20,13 @@
   services.tailscale.enable = true;
   environment.systemPackages = with pkgs; [
     tailscale
+    sing-box
   ];
+
+  services.sing-box = {
+    enable = true;
+    settingsFile = config.age.secrets.tpm-sb-conf.path;
+  };
+  systemd.services.sing-box.restartTriggers = ["${config.age.secrets.tpm-sb-conf.file}"];
+  age.secrets.tpm-sb-conf.file = ../../secrets/tpm-sb-config.json;
 }

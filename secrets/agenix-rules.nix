@@ -25,4 +25,10 @@ in {
       sshKeys.systems.probook-nix
       sshKeys.systems.aliyun
     ];
+  "tpm-sb-config.json".publicKeys =
+    sshKeys.allUsers
+    ++ [
+      sshKeys.systems.probook-nix
+      sshKeys.systems.tpm312
+    ];
 }
