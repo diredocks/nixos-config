@@ -10,7 +10,7 @@
     (modulesPath + "/installer/sd-card/sd-image.nix")
   ];
 
-  image.baseName = "nixos-sd-image-tpm312";
+  image.baseName = "nixos-image-tpm312";
 
   sdImage = {
     compressImage = false;
