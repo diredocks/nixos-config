@@ -4,18 +4,18 @@
   lib,
   ...
 }: let
-  # All deploy targets are x86_64-linux, so only build that package set.
-  deployPkgs = import inputs.nixpkgs {
-    system = "x86_64-linux";
-    overlays = [
-      (final: prev: {
-        deploy-rs = {
-          inherit ((inputs.deploy-rs.overlays.default final prev).deploy-rs) lib;
-          inherit (prev) deploy-rs;
-        };
-      })
-    ];
+  # `deploy-rs.lib` lives only in the overlay, which rebuilds deploy-rs from
+  # source — keep nixpkgs' binary and take just the lib.
+  deployRsOverlay = final: prev: {
+    deploy-rs = {
+      inherit (prev) deploy-rs;
+      inherit ((inputs.deploy-rs.overlays.default final prev).deploy-rs) lib;
+    };
   };
+
+  # Activation runs on the target, so it needs the host's own (platform-correct)
+  # package set.
+  activateFor = cfg: (cfg.pkgs.extend deployRsOverlay).deploy-rs.lib.activate.nixos cfg;
 in {
   flake.deploy = {
     sshUser = "root";
@@ -28,7 +28,7 @@ in {
     nodes =
       lib.mapAttrs (host: hostname: {
         inherit hostname;
-        profiles.system.path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.${host};
+        profiles.system.path = activateFor self.nixosConfigurations.${host};
       }) {
         vmiss-la = "vmlatl";
         racknerd = "rntl";
