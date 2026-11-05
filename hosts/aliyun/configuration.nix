@@ -37,10 +37,6 @@
     settings.substituters = lib.mkForce [
       "https://cache.nixos.org?priority=1"
     ];
-    gc = {
-      automatic = true;
-      dates = "daily";
-    };
   };
 
   services.openssh.ports = [29381];
