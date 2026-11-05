@@ -67,4 +67,36 @@
     serviceConfig.EnvironmentFile = config.age.secrets.magpie-key.path;
     restartTriggers = ["${config.age.secrets.magpie-key.file}"];
   };
+
+  services.nginx = {
+    enable = true;
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+
+    virtualHosts."magpie.tpm.clickfling.top" = {
+      forceSSL = true;
+      useACMEHost = "tpm";
+      locations."/".proxyPass = "http://127.0.0.1:4830";
+    };
+
+    virtualHosts."gateway.tpm.clickfling.top" = {
+      forceSSL = true;
+      useACMEHost = "tpm";
+      locations."/".proxyPass = "http://127.0.0.1:4820";
+    };
+  };
+
+  security.acme = {
+    acceptTerms = true;
+    certs."tpm" = {
+      domain = "*.tpm.clickfling.top";
+      dnsProvider = "cloudflare";
+      environmentFile = config.age.secrets.cloudflare-dns.path;
+      group = config.services.nginx.group;
+    };
+  };
+
+  age.secrets.cloudflare-dns.file = ../../secrets/cloudflare-dns.key;
 }
