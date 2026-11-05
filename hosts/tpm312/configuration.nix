@@ -102,4 +102,11 @@
   };
 
   age.secrets.cloudflare-dns.file = ../../secrets/cloudflare-dns.key;
+
+  services.journald.settings.Journal = {
+    Storage = "volatile";
+    RuntimeMaxUse = "64M";
+    RuntimeKeepFree = "64M";
+    SyncIntervalSec = "5min";
+  };
 }
