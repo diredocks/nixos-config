@@ -31,4 +31,10 @@ in {
       sshKeys.systems.probook-nix
       sshKeys.systems.tpm312
     ];
+  "magpie.key".publicKeys =
+    sshKeys.allUsers
+    ++ [
+      sshKeys.systems.probook-nix
+      sshKeys.systems.tpm312
+    ];
 }
