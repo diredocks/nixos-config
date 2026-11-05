@@ -33,6 +33,7 @@ in {
         vmiss-la = "vmlatl";
         racknerd = "rntl";
         aliyun = "alitl";
+        tpm312 = "tpm";
       };
   };
 }
