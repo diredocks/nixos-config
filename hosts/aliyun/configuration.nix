@@ -11,6 +11,7 @@
     ./hardware/boot.nix
     ./hardware/disko.nix
     ./hardware/hardware-configuration.nix
+    ./sing-box.nix
   ];
 
   networking.firewall = {
@@ -41,20 +42,6 @@
       dates = "daily";
     };
   };
-
-  services.tailscale.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    tailscale
-    sing-box
-  ];
-
-  services.sing-box = {
-    enable = true;
-    settingsFile = config.age.secrets.aliyun-sb-conf.path;
-  };
-  systemd.services.sing-box.restartTriggers = ["${config.age.secrets.aliyun-sb-conf.file}"];
-  age.secrets.aliyun-sb-conf.file = ../../secrets/aliyun-sb-config.json;
 
   services.openssh.ports = [29381];
 }
