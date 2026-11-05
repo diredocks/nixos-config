@@ -27,6 +27,12 @@
   # the prebuilt kernel has no dev output.
   boot.supportedFilesystems.zfs = lib.mkForce false;
 
+  fileSystems."/mnt/data" = {
+    device = "/dev/disk/by-uuid/63d85f55-d235-4bc5-b96f-0140f88ebdae";
+    fsType = "btrfs";
+    options = ["subvol=data" "compress=zstd" "noatime" "nofail"];
+  };
+
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = 1;
     "net.ipv6.conf.all.forwarding" = 1;
