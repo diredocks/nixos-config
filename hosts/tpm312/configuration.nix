@@ -56,7 +56,10 @@
         http_proxy = "http://host.containers.internal:36176";
         https_proxy = "http://host.containers.internal:36176";
       };
-      extraOptions = ["--env=MAGPIE_WEB_KEY"];
+      extraOptions = [
+        "--env=MAGPIE_WEB_KEY"
+        "--network=pasta:--map-host-loopback,169.254.1.2"
+      ];
       autoStart = true;
       podman.user = LT.user;
     };
