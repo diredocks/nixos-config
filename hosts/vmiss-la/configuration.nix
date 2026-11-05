@@ -11,6 +11,7 @@
     ./hardware/boot.nix
     ./hardware/disko.nix
     ./hardware/hardware-configuration.nix
+    ./sing-box.nix
   ];
 
   networking.firewall = {
@@ -43,19 +44,6 @@
       dates = "daily";
     };
   };
-
-  services.tailscale.enable = true;
-  environment.systemPackages = with pkgs; [
-    tailscale
-    sing-box
-  ];
-
-  services.sing-box = {
-    enable = true;
-    settingsFile = config.age.secrets.vmiss-la-sb-conf.path;
-  };
-  systemd.services.sing-box.restartTriggers = ["${config.age.secrets.vmiss-la-sb-conf.file}"];
-  age.secrets.vmiss-la-sb-conf.file = ../../secrets/vmiss-la-sb-config.json;
 
   services.openssh.ports = [41867];
 }
