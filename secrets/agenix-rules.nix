@@ -37,6 +37,12 @@ in {
       sshKeys.systems.probook-nix
       sshKeys.systems.tpm312
     ];
+  "immich.env".publicKeys =
+    sshKeys.allUsers
+    ++ [
+      sshKeys.systems.probook-nix
+      sshKeys.systems.tpm312
+    ];
   "cloudflare-dns.key".publicKeys =
     sshKeys.allUsers
     ++ [

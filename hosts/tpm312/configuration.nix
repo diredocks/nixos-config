@@ -7,6 +7,7 @@
   imports = [
     ./hardware/hardware-configuration.nix
     ./hardware/sd-image.nix
+    ./immich.nix
   ];
 
   networking.networkmanager.enable = true;
