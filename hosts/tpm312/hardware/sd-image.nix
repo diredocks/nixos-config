@@ -13,7 +13,9 @@
   image.baseName = "nixos-sd-image-tpm312";
 
   sdImage = {
-    firmwarePartitionOffset = 32;
+    compressImage = false;
+    firmwareSize = 1;
+    firmwarePartitionOffset = 16;
     populateFirmwareCommands = "";
     populateRootCommands = ''
       mkdir -p ./files/boot
