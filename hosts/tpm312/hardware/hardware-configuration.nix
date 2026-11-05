@@ -46,4 +46,6 @@
     "vm.swappiness" = 180;
     "vm.page-cluster" = 0;
   };
+
+  boot.tmp.useTmpfs = true;
 }
