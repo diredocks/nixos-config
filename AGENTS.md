@@ -95,7 +95,6 @@ just fmt
 just secrets rekey
 just secrets check
 just secrets edit <name> <file>
-just secrets rm <name> <file>
 just proxy set / unset
 ```
 
