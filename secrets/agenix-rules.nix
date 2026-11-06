@@ -49,4 +49,10 @@ in {
       sshKeys.systems.probook-nix
       sshKeys.systems.tpm312
     ];
+  "infini.key".publicKeys =
+    sshKeys.allUsers
+    ++ [
+      sshKeys.systems.probook-nix
+      sshKeys.systems.racknerd
+    ];
 }

@@ -12,6 +12,7 @@
     ./hardware/disko.nix
     ./hardware/hardware-configuration.nix
     ./nginx.nix
+    ./rclone.nix
     ./sing-box.nix
     ./vaultwarden.nix
   ];
