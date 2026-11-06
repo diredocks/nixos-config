@@ -15,6 +15,7 @@
     ./rclone.nix
     ./sing-box.nix
     ./vaultwarden.nix
+    ./vaultwarden-backup.nix
   ];
 
   networking.firewall = {
