@@ -24,7 +24,7 @@ hosts/<name>/          # one dir per machine
   configuration.nix    # host-specific settings + hardware imports
   hardware/            # boot.nix / disko.nix / hardware-configuration.nix
   secrets/             # this host's ciphertext + optional default.nix overrides
-agenix-rules.nix       # GENERATED, `just secrets-rules`
+agenix-rules.nix       # GENERATED, `just secrets rules`
 nixos/                 # system-level modules
   minimal.nix client.nix server.nix   # role entrypoints
   minimal-apps/ minimal-components/    # always-on base
@@ -36,6 +36,8 @@ home/                  # home-manager modules
 pkgs/                  # custom packages (auto-added to overlay)
 overlays/default.nix   # additions (pkgs/) + modifications
 justfile               # rebuild/deploy/update/format commands
+  secrets.just         # `just secrets <rules|edit|check|rekey>` module
+  proxy.just           # `just proxy <set|unset>` module
 ```
 
 ## What to do and how
@@ -78,7 +80,7 @@ let secret = config.age.secrets."magpie.key"; in {
 
 - Any regular file in `hosts/<name>/secrets/` (not `*.nix`/`*.md`) becomes `config.age.secrets."<file name>"`.
 - `owner`/`group`/`mode`/`path`/`symlink` overrides go in `hosts/<name>/secrets/default.nix` (imported implicitly).
-- Recipients = `trustedUsers` keys (`helpers/keys.nix`) + the host's `sshHostKeys`. After changing either, or adding a file: `just secrets-rekey` (regenerates `agenix-rules.nix` from the repo root, then re-encrypts); `just secrets-check` verifies.
+- Recipients = `trustedUsers` keys (`helpers/keys.nix`) + the host's `sshHostKeys`. After changing either, or adding a file: `just secrets rekey` (regenerates `agenix-rules.nix` from the repo root, then re-encrypts); `just secrets check` verifies.
 - Never commit plaintext secrets.
 
 **Custom package.** Drop `pkgs/<name>.nix` — auto-imported as `pkgs.<name>` and exposed by the overlay.
@@ -90,9 +92,10 @@ just switch / boot
 just deploy [host]
 just update
 just fmt
-just secrets-rekey
-just secrets-check
-just secret-edit hosts/<name>/secrets/<file>
+just secrets rekey
+just secrets check
+just secrets edit hosts/<name>/secrets/<file>
+just proxy set / unset
 ```
 
 Build/check before claiming success: `nix build .#nixosConfigurations.<host>.config.system.build.toplevel` (or `nix eval ...toplevel.drvPath` for eval-only). Format with `nix fmt .`.
