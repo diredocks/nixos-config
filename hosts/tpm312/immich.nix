@@ -12,16 +12,12 @@
   version = "v2";
 
   network = "immich";
-  envFile = config.age.secrets.immich-env.path;
+  # hosts/tpm312/secrets/immich.env
+  envFile = config.age.secrets."immich.env".path;
   podman = config.virtualisation.podman.package;
   containerNames = ["immich-server" "immich-redis" "immich-database"];
   containerUser = LT.user;
 in {
-  age.secrets.immich-env = {
-    file = ../../secrets/immich.env;
-    owner = containerUser;
-  };
-
   systemd.tmpfiles.rules = [
     "d ${dataDir} 0755 ${containerUser} users -"
     "d ${uploadLocation} 0755 ${containerUser} users -"
@@ -108,7 +104,7 @@ in {
         value = {
           after = ["podman-network-immich.service"];
           wants = ["podman-network-immich.service"];
-          restartTriggers = ["${config.age.secrets.immich-env.file}"];
+          restartTriggers = ["${config.age.secrets."immich.env".file}"];
         };
       })
       containerNames);

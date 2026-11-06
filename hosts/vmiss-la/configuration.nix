@@ -25,12 +25,6 @@
   ];
   systemd.network.enable = true;
   services.resolved.enable = false;
-  age.secrets.vmiss-la-addr = {
-    file = ../../secrets/vmiss-la-eth0.network;
-    path = "/etc/systemd/network/vmiss-la-eth0.network";
-    mode = "444";
-    symlink = true;
-  };
 
   time.timeZone = "America/Los_Angeles";
   i18n.defaultLocale = "en_US.UTF-8";

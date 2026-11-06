@@ -16,7 +16,7 @@
       experimental-features = ["nix-command" "flakes"];
       flake-registry = "";
       auto-optimise-store = true;
-      trusted-users = [LT.user];
+      trusted-users = LT.this.trustedUsers;
       substituters = [
         "https://mirror.sjtu.edu.cn/nix-channels/store?priority=1"
       ];

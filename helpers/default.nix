@@ -5,6 +5,7 @@
   inputs,
   self ? null,
   hostsBase ? ../hosts,
+  hostName ? throw "helpers: pass `hostName` to use LT.this",
   ...
 }: let
   call = path: let
@@ -28,10 +29,12 @@
     inherit (constants) tags user userHome;
 
     ls = call ./fn/ls.nix;
+    keys = call ./keys.nix;
+    secrets = call ./fn/secrets.nix;
 
+    this = hosts.${hostName};
     hosts = call ./fn/hosts.nix;
-    this = hosts."${config.networking.hostName}";
-    otherHosts = builtins.removeAttrs hosts [config.networking.hostName];
+    otherHosts = builtins.removeAttrs hosts [hostName];
 
     hostsWithTag = tag: lib.filterAttrs (n: v: v.hasTag tag) hosts;
     hostsWithoutTag = tag: lib.filterAttrs (n: v: !(v.hasTag tag)) hosts;

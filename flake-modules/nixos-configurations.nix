@@ -8,6 +8,7 @@
   mkLT = name:
     import ../helpers {
       inherit inputs self lib;
+      hostName = name;
       inherit (self.nixosConfigurations."${name}") config pkgs;
     };
 

@@ -2,6 +2,7 @@
   lib,
   tags,
   constants,
+  keys,
   hostsBase,
   ...
 }:
@@ -13,7 +14,7 @@ lib.mapAttrs (
         (hostsBase + "/${n}/host.nix")
       ];
       specialArgs = {
-        inherit tags constants hostsBase;
+        inherit tags constants keys hostsBase;
         name = n;
       };
     }).config

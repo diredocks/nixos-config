@@ -15,6 +15,21 @@ deploy host="" mode="switch":
 update:
   nix flake update
 
+# Rewrite agenix-rules.nix from hosts/*/host.nix + hosts/*/secrets/.
+secrets-rules:
+  @{ nix eval --raw .#agenixRules; echo; } > agenix-rules.nix
+
+# `just secret-edit hosts/tpm312/secrets/magpie.key`
+secret-edit path:
+  nix run .#agenix -- -e {{path}}
+
+secrets-check:
+  nix run .#agenix -- -c
+
+# Re-encrypt every secret with the current rules.
+secrets-rekey: secrets-rules
+  nix run .#agenix -- -r
+
 gc:
   sudo nix store gc --debug
   sudo nix-collect-garbage --delete-old

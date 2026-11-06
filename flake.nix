@@ -53,6 +53,7 @@
         ./flake-modules/deploy.nix
         ./flake-modules/nixos-configurations.nix
         ./flake-modules/packages.nix
+        ./flake-modules/secrets.nix
       ];
 
       flake = {

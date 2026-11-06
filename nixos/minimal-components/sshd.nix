@@ -1,13 +1,8 @@
 {
-  inputs,
   lib,
-  config,
-  pkgs,
   LT,
   ...
-}: let
-  sshKeys = import ../../secrets/ssh-keys-pub.nix;
-in {
+}: {
   services.openssh = {
     enable = true;
     settings = {
@@ -22,12 +17,6 @@ in {
     '';
   };
 
-  # Reuse the user key, else root can't log in (no password auth).
-  users.users.root.openssh.authorizedKeys.keys = lib.mkDefault [
-    sshKeys.users.leo_probook-nix
-  ];
-
-  users.users.${LT.user}.openssh.authorizedKeys.keys = [
-    sshKeys.users.leo_probook-nix
-  ];
+  users.users.${LT.user}.openssh.authorizedKeys.keys = LT.this.trustedUserKeys;
+  users.users.root.openssh.authorizedKeys.keys = lib.mkDefault LT.this.trustedUserKeys;
 }

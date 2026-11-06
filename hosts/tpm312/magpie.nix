@@ -25,10 +25,10 @@
     podman.user = LT.user;
   };
 
-  age.secrets.magpie-key.file = ../../secrets/magpie.key;
+  # hosts/tpm312/secrets/magpie.key
   systemd.services.podman-magpie = {
-    serviceConfig.EnvironmentFile = config.age.secrets.magpie-key.path;
-    restartTriggers = ["${config.age.secrets.magpie-key.file}"];
+    serviceConfig.EnvironmentFile = config.age.secrets."magpie.key".path;
+    restartTriggers = ["${config.age.secrets."magpie.key".file}"];
   };
 
   services.nginx.virtualHosts = {

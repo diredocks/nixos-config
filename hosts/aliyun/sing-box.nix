@@ -2,14 +2,16 @@
   config,
   pkgs,
   ...
-}: {
+}: let
+  # hosts/aliyun/secrets/aliyun-sb-config.json
+  secret = config.age.secrets."aliyun-sb-config.json";
+in {
   services.sing-box = {
     enable = true;
-    settingsFile = config.age.secrets.aliyun-sb-conf.path;
+    settingsFile = secret.path;
   };
 
-  systemd.services.sing-box.restartTriggers = ["${config.age.secrets.aliyun-sb-conf.file}"];
-  age.secrets.aliyun-sb-conf.file = ../../secrets/aliyun-sb-config.json;
+  systemd.services.sing-box.restartTriggers = ["${secret.file}"];
 
   environment.systemPackages = [pkgs.sing-box];
 }

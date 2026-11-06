@@ -1,9 +1,5 @@
 {LT, ...}: {
-  age.secrets.infini = {
-    file = ../../secrets/infini.key;
-    owner = LT.user;
-  };
-
+  # hosts/racknerd/secrets/infini.key
   programs.fuse.enable = true;
 
   home-manager.users.${LT.user}.programs.rclone = {
@@ -16,7 +12,7 @@
         user = "Bounce4778";
       };
 
-      secrets.pass = LT.config.age.secrets.infini.path;
+      secrets.pass = LT.config.age.secrets."infini.key".path;
 
       mounts = {
         "vaultwarden" = {

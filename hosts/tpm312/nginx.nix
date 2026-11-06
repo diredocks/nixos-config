@@ -12,10 +12,9 @@
     certs."tpm" = {
       domain = "*.tpm.clickfling.top";
       dnsProvider = "cloudflare";
-      environmentFile = config.age.secrets.cloudflare-dns.path;
+      # hosts/tpm312/secrets/cloudflare-dns.key
+      environmentFile = config.age.secrets."cloudflare-dns.key".path;
       group = config.services.nginx.group;
     };
   };
-
-  age.secrets.cloudflare-dns.file = ../../secrets/cloudflare-dns.key;
 }
