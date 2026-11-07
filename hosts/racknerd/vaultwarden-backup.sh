@@ -18,7 +18,7 @@ mountpoint -q "$REMOTE_DIR" || {
 sqlite3 "$DATA_DIR/db.sqlite3" ".backup '$tmpdb'"
 
 tar -C "$staging" "db-$ts.sqlite3" \
-  -C "$DATA_DIR" --exclude=./db.sqlite3 --exclude='./db.sqlite3-*' \
+  -C "$DATA_DIR" --exclude='./db.sqlite3*' \
   --exclude=./icon_cache --exclude=./tmp \
   -I 'zstd -19 -T0' -cf "$archive" .
 
