@@ -8,7 +8,7 @@
 in {
   systemd.services.vaultwarden-backup = {
     description = "Backup vaultwarden";
-    path = with pkgs; [sqlite zstd coreutils util-linux];
+    path = with pkgs; [sqlite zstd gnutar coreutils util-linux];
     environment = {
       DATA_DIR = dataDir;
       REMOTE_DIR = remoteDir;
