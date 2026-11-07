@@ -21,7 +21,6 @@ in {
   systemd.tmpfiles.rules = [
     "d ${dataDir} 0755 ${containerUser} users -"
     "d ${uploadLocation} 0755 ${containerUser} users -"
-    "d ${dbDataLocation} 0700 ${containerUser} users -"
   ];
 
   virtualisation.oci-containers.containers = {
