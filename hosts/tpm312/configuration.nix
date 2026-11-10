@@ -6,7 +6,6 @@
     ./sing-box.nix
     ./magpie.nix
     ./immich.nix
-    ./astrbot.nix
   ];
 
   networking.networkmanager.enable = true;
