@@ -6,6 +6,12 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFxauF15nn/Qqc78Ou53KxGHWagZY6a5KfybAmw9J80T"
     ];
   };
+  "hosts/racknerd/secrets/gh-token" = {
+    publicKeys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFXn0O9OwDImP05mnIzbSmGdNdcg7HJ3wpdBRIi+TEwA leo@probook-nix"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPHnX2qRjL9PX/LalAMnMNJltUq9sw4C8bP9Ee0nH4wZ"
+    ];
+  };
   "hosts/racknerd/secrets/infini.key" = {
     publicKeys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFXn0O9OwDImP05mnIzbSmGdNdcg7HJ3wpdBRIi+TEwA leo@probook-nix"

@@ -11,6 +11,7 @@
     ./hardware/boot.nix
     ./hardware/disko.nix
     ./hardware/hardware-configuration.nix
+    ./checkin-dispatch.nix
     ./nginx.nix
     ./rclone.nix
     ./sing-box.nix
