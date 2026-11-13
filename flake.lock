@@ -171,6 +171,24 @@
         "type": "github"
       }
     },
+    "gaokun3": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1790656971,
+        "narHash": "sha256-GlvEG5n48xjocNQ6XxYSuelZx6NbsKfX5G4B0gsZQfU=",
+        "owner": "bryarrow",
+        "repo": "linux-gaokun-buildbot",
+        "rev": "fd67d3549510ae90869cdd1e552bb41d0fb09da3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bryarrow",
+        "repo": "linux-gaokun-buildbot",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -304,6 +322,22 @@
     },
     "nixpkgs": {
       "locked": {
+        "lastModified": 1786862985,
+        "narHash": "sha256-FBJRXmbGXiSUDvYEbfLYRkckayyZ6SK1UEqhCrIZ2Cs=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "e5bdc4a41d4c072fe1e3787eaa0320a384741d44",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
         "lastModified": 1794042290,
         "narHash": "sha256-ziZn2PvCJE5JEEpqTdxXwJpPB+L3YqoCpTAMCzyaP3U=",
         "owner": "nixos",
@@ -324,13 +358,14 @@
         "deploy-rs": "deploy-rs",
         "disko": "disko",
         "flake-parts": "flake-parts",
+        "gaokun3": "gaokun3",
         "home-manager": "home-manager",
         "inputactions-ctl": "inputactions-ctl",
         "inputactions-kwin": "inputactions-kwin",
         "inputactions-overlay": "inputactions-overlay",
         "lazyvim": "lazyvim",
         "llm-agents": "llm-agents",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs_2"
       }
     },
     "systems": {

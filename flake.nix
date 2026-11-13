@@ -43,6 +43,14 @@
       url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Hardware support for the MateBook E Go (gaokun3); hosts/ego imports its
+    # NixOS module. Deliberately no `inputs.nixpkgs.follows`: its overlay
+    # re-exports that flake's own kernel/firmware builds, and following our
+    # nixpkgs would rebuild them locally against a different pin, losing the
+    # upstream binary cache.
+    gaokun3 = {
+      url = "github:bryarrow/linux-gaokun-buildbot";
+    };
   };
 
   outputs = inputs @ {flake-parts, ...}:
