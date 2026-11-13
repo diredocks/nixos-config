@@ -11,6 +11,7 @@ flake-modules/         # flake outputs
   deploy.nix                # deploy-rs nodes (servers)
   packages.nix              # custom pkgs + per-host disk/sd images
   installer.nix             # gaokun3 (BOE panel) USB installer ISO
+  image.nix                 # gaokun3 minimal bootstrap image for dd
   secrets.nix               # flake.agenixRules generator
 helpers/               # LT: shared library injected into every module
   constants.nix        # LT.user, LT.userHome, LT.tags
@@ -98,6 +99,7 @@ just secrets check
 just secrets edit <name> <file>
 just proxy set / unset
 nix build .#packages.aarch64-linux.installer-iso   # gaokun3 installer, aarch64 build
+nix build .#ego-image                             # gaokun3 dd-able image, x86_64 build
 ```
 
 Build/check before claiming success: `nix build .#nixosConfigurations.<host>.config.system.build.toplevel` (or `nix eval ...toplevel.drvPath` for eval-only). Format with `nix fmt .`.

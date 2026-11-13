@@ -59,6 +59,7 @@
 
       imports = [
         ./flake-modules/deploy.nix
+        ./flake-modules/image.nix
         ./flake-modules/installer.nix
         ./flake-modules/nixos-configurations.nix
         ./flake-modules/packages.nix
