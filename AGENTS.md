@@ -10,6 +10,7 @@ flake-modules/         # flake outputs
   nixos-configurations.nix  # builds every host, picks role from tags
   deploy.nix                # deploy-rs nodes (servers)
   packages.nix              # custom pkgs + per-host disk/sd images
+  installer.nix             # gaokun3 (BOE panel) USB installer ISO
   secrets.nix               # flake.agenixRules generator
 helpers/               # LT: shared library injected into every module
   constants.nix        # LT.user, LT.userHome, LT.tags
@@ -22,7 +23,7 @@ helpers/               # LT: shared library injected into every module
 hosts/<name>/          # one dir per machine
   host.nix             # metadata: system, tags, stateVersion, sshHostKeys, trustedUsers
   configuration.nix    # host-specific settings + hardware imports
-  hardware/            # boot.nix / disko.nix / hardware-configuration.nix
+  hardware/            # boot.nix / disko.nix / panel.nix / hardware-configuration.nix
   secrets/             # this host's ciphertext + optional default.nix overrides
 agenix-rules.nix       # GENERATED, `just secrets rules`
 nixos/                 # system-level modules
@@ -96,6 +97,7 @@ just secrets rekey
 just secrets check
 just secrets edit <name> <file>
 just proxy set / unset
+nix build .#packages.aarch64-linux.installer-iso   # gaokun3 installer, aarch64 build
 ```
 
 Build/check before claiming success: `nix build .#nixosConfigurations.<host>.config.system.build.toplevel` (or `nix eval ...toplevel.drvPath` for eval-only). Format with `nix fmt .`.

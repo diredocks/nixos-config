@@ -10,6 +10,8 @@
     # dir therefore has no hardware-configuration.nix.
     ./hardware/disko.nix
     ./hardware/boot.nix
+    # The BOE panel correction for this machine; the installer imports it too.
+    ./hardware/panel.nix
   ];
 
   # Hardware support for the MateBook E Go: kernel, device tree, kernel command
