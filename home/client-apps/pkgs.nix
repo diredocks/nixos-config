@@ -9,11 +9,13 @@
     qbittorrent
     inkscape
     obs-studio
-    (brave.override {
-      commandLineArgs = [
-        "--enable-features=TouchpadOverscrollHistoryNavigation"
-      ];
-    })
+    # brave was removed from nixpkgs on 2026-11-03 (no maintainers left to
+    # handle security issues); restore the override below if it returns.
+    # (brave.override {
+    #   commandLineArgs = [
+    #     "--enable-features=TouchpadOverscrollHistoryNavigation"
+    #   ];
+    # })
     hugo
     wireshark
     telegram-desktop
