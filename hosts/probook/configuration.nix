@@ -12,6 +12,7 @@
   imports = [
     ./hardware/hardware-configuration.nix
     ./hardware/boot.nix
+    ./virt.nix
   ];
 
   networking.networkmanager.enable = true;
