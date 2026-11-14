@@ -43,6 +43,10 @@
       url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Avoids `follows` to preserve binary caches
+    gaokun3 = {
+      url = "github:bryarrow/linux-gaokun-buildbot";
+    };
   };
 
   outputs = inputs @ {flake-parts, ...}:
