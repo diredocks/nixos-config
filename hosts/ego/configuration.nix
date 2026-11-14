@@ -1,5 +1,6 @@
 {
   inputs,
+  config,
   LT,
   ...
 }: {
@@ -16,4 +17,7 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   users.users.${LT.user}.extraGroups = ["dialout" "video"];
+  systemd.services.display-manager.preStart = ''
+    ${config.systemd.package}/bin/udevadm wait --timeout=30 /dev/dri/card1 || true
+  '';
 }
