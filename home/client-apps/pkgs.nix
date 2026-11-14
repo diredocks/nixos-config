@@ -9,11 +9,11 @@
     qbittorrent
     inkscape
     obs-studio
-    # (brave.override {
-    #   commandLineArgs = [
-    #     "--enable-features=TouchpadOverscrollHistoryNavigation"
-    #   ];
-    # })
+    (brave.override {
+      commandLineArgs = [
+        "--enable-features=TouchpadOverscrollHistoryNavigation"
+      ];
+    })
     hugo
     wireshark
     telegram-desktop
