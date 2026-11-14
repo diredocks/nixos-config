@@ -23,10 +23,12 @@
       extra-substituters = [
         "https://cache.numtide.com?priority=10"
         "https://inputactions.cachix.org?priority=10"
+        "https://gaokun3.cachix.org?priority=10"
       ];
       extra-trusted-public-keys = [
         "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
         "inputactions.cachix.org-1:yBGhAqTOv0V08lrOTBwMAkU7V/9a0i2UPvsvCu39CjE="
+        "gaokun3.cachix.org-1:ikL6EofK55QEwKucrUo44SPKewscvAMJr7ibBxJtIsI="
       ];
     };
     channel.enable = false;
