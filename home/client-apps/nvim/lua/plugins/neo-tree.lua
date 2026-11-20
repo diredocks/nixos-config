@@ -15,7 +15,11 @@ local function open_dir_workspace(dir)
 		Snacks.dashboard.open({ buf = 0, win = 0 })
 	end
 
-	require("neo-tree.command").execute({ action = "focus", dir = dir })
+	-- Ensure lazy.nvim runs neo-tree's config/setup(opts) before executing commands
+	require("lazy").load({ plugins = { "neo-tree.nvim" } })
+	-- Resolve relative paths (e.g. `.`) to an absolute path so LazyVim's neo-tree opts scan properly
+	local abs_dir = vim.uv.fs_realpath(dir) or vim.fn.fnamemodify(dir, ":p")
+	require("neo-tree.command").execute({ action = "focus", dir = abs_dir })
 	vim.schedule(function()
 		vim.o.showtabline = 0
 		pcall(nvim_bufferline)
@@ -44,6 +48,12 @@ return {
 			filesystem = {
 				-- Keep main window for dashboard instead of letting netrw/neo-tree take over
 				hijack_netrw_behavior = "disabled",
+			},
+			window = {
+				mappings = {
+					-- Disable <space> (toggle_node) so it doesn't conflict with <leader> keymaps
+					["<space>"] = "none",
+				},
 			},
 		},
 	},
