@@ -45,15 +45,10 @@ return {
 			})
 		end,
 		opts = {
+			close_if_last_window = true,
 			filesystem = {
 				-- Keep main window for dashboard instead of letting netrw/neo-tree take over
 				hijack_netrw_behavior = "disabled",
-			},
-			window = {
-				mappings = {
-					-- Disable <space> (toggle_node) so it doesn't conflict with <leader> keymaps
-					["<space>"] = "none",
-				},
 			},
 		},
 	},
