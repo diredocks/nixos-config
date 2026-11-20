@@ -19,6 +19,7 @@
     ];
     configFiles = ./lua;
     extras = {
+      editor.neo-tree.enable = true;
       lang.typescript.enable = true;
       lang.go.enable = true;
       lang.clangd.enable = true;
