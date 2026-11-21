@@ -37,6 +37,16 @@ in {
       }
     ];
   };
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 1024 * 8;
+    }
+  ];
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+  };
   services.udev.extraRules = ''
     ACTION=="add|change", SUBSYSTEM=="power_supply", KERNEL=="gaokun-ec-battery", ATTR{smart_charge_delay}="24", ATTR{charge_control_end_threshold}="70", ATTR{charge_control_start_threshold}="40", ATTR{battery_adaptive_charge}="1"
   '';
